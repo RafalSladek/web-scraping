@@ -13,12 +13,12 @@ DATADOG_API_KEY=<YOUR_API_KEY> DEBUG=metrics node index.js
 ## How to run with docker
 ```
 docker run -d \
-    -e DATADOG_API_KEY=<YOUR_API_KEY> \
-    -v $(PWD):/app \
+    -e DATADOG_API_KEY=${DATADOG_API_KEY} \
+    -v $(pwd):/app \
     -w /app \
     --name=web-scraper \
     node:12 \
-    yarn install && node index.js
+    yarn install && DEBUG=metrics node index.js
 ```
 
 ## How to run tests

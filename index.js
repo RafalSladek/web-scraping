@@ -1,23 +1,24 @@
 const metrics = require("datadog-metrics");
 const config = require("./config");
 const parser = require("./parser");
+const os = require("os");
+const hostname = os.hostname();
 
 const main = () => {
   Promise.all(
-    config.parameters.map(p => {
-      parser.parseHtml(p).then(p1 => {
-        //console.log(JSON.stringify(p1));
+    config.parameters.map(parameter => {
+      parser.parseHtml(parameter).then(extendedParameter => {
         const bufferedMetricsLogger = new metrics.BufferedMetricsLogger({
-          host: "mac",
+          host: hostname,
           prefix: "goldcoin.",
-          flushIntervalSeconds: 5,
-          defaultTags: p1.defaultTags
+          flushIntervalSeconds: 300,
+          defaultTags: extendedParameter.defaultTags
         });
 
-        bufferedMetricsLogger.gauge("price", p1.price);
+        bufferedMetricsLogger.gauge("price", extendedParameter.price);
       });
     })
   );
 };
-
-setInterval(main, 15000);
+const tenmin = 600000;
+setInterval(main, tenmin);

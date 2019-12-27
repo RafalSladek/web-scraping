@@ -6,7 +6,7 @@ const main = () => {
   Promise.all(
     config.parameters.map(p => {
       parser.parseHtml(p).then(p1 => {
-        console.log(JSON.stringify(p1));
+        //console.log(JSON.stringify(p1));
         const bufferedMetricsLogger = new metrics.BufferedMetricsLogger({
           host: "mac",
           prefix: "goldcoin.",

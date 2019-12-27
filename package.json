@@ -7,9 +7,7 @@
   "author": "Rafal Sladek <rafal.sladek@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3",
     "datadog-metrics": "^0.8.1",
-    "puppeteer": "^2.0.0",
     "request-promise": "^4.2.5"
   },
   "devDependencies": {

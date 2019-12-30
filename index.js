@@ -11,7 +11,7 @@ const main = () => {
         const bufferedMetricsLogger = new metrics.BufferedMetricsLogger({
           host: hostname,
           prefix: "goldcoin.",
-          flushIntervalSeconds: 300,
+          flushIntervalSeconds: 120,
           defaultTags: extendedParameter.defaultTags
         });
 
@@ -20,5 +20,5 @@ const main = () => {
     })
   );
 };
-const tenmin = 600000;
+const tenmin = 240000;
 setInterval(main, tenmin);

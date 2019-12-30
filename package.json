@@ -10,6 +10,7 @@
     "cheerio": "^1.0.0-rc.3",
     "datadog-metrics": "^0.8.1",
     "os": "^0.1.1",
+    "pm2": "^4.2.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   },
@@ -19,6 +20,6 @@
   },
   "scripts": {
     "test": "mocha",
-    "run": "DEBUG=metrics node index.js"
+    "start": "DEBUG=metrics pm2-runtime index.js"
   }
 }

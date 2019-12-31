@@ -7,27 +7,40 @@ const hostname = os.hostname();
 const invocation = io.counter({
   name: "Invocation"
 });
-const parsing = io.counter({
-  name: "Parse"
+const parsingSucessful = io.counter({
+  name: "ParsingSucessful"
+});
+const parsingError = io.counter({
+  name: "ParsingError"
 });
 
 const main = () => {
   invocation.inc();
   Promise.all(
     config.parameters.map(parameter => {
-      parser.parseHtml(parameter).then(extendedParameter => {
-        parsing.inc();
-        const bufferedMetricsLogger = new metrics.BufferedMetricsLogger({
-          host: hostname,
-          prefix: "goldcoin.",
-          flushIntervalSeconds: 120,
-          defaultTags: extendedParameter.defaultTags
-        });
+      parser
+        .parseHtml(parameter)
+        .then(extendedParameter => {
+          if (extendedParameter.price > 0) {
+            console.log("parsingSucessful: " + extendedParameter.name);
+            parsingSucessful.inc();
+          }
 
-        bufferedMetricsLogger.gauge("price", extendedParameter.price);
-      });
+          const bufferedMetricsLogger = new metrics.BufferedMetricsLogger({
+            host: hostname,
+            prefix: "goldcoin.",
+            flushIntervalSeconds: 120,
+            defaultTags: extendedParameter.defaultTags
+          });
+
+          bufferedMetricsLogger.gauge("price", extendedParameter.price);
+        })
+        .catch(erro => {
+          console.log("parsingError: " + erro);
+          parsingError.inc();
+        });
     })
   );
 };
-const tenmin = 240000;
-setInterval(main, tenmin);
+const fournmin = 240000;
+setInterval(main, fournmin);

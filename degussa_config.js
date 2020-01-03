@@ -12,7 +12,7 @@ exports.parameters = [
       "'weigth:1oz'",
       "'priceCurrency:EUR'"
     ],
-    name:'Canadian Maple Leaf',
+    name: "Canadian Maple Leaf",
     price: 0.0
   },
   {
@@ -27,7 +27,7 @@ exports.parameters = [
       "'weigth:1oz'",
       "'priceCurrency:EUR'"
     ],
-    name:'Wiener Philharmoniker',
+    name: "Wiener Philharmoniker",
     price: 0.0
   },
   {
@@ -42,7 +42,7 @@ exports.parameters = [
       "'weigth:1oz'",
       "'priceCurrency:EUR'"
     ],
-    name:'Kruegerrand',
+    name: "Kruegerrand",
     price: 0.0
   }
 ];

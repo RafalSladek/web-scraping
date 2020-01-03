@@ -1,6 +1,7 @@
 const metrics = require("datadog-metrics");
 const io = require("@pm2/io");
-const config = require("./config");
+const degussa_config = require("./degussa_config");
+const proaurum_config = require("./proaurum_config");
 const parser = require("./parser");
 const os = require("os");
 const hostname = os.hostname();
@@ -16,8 +17,11 @@ const parsingError = io.counter({
 
 const main = () => {
   invocation.inc();
+  const allParameters = degussa_config.parameters.concat(
+    proaurum_config.parameters
+  );
   Promise.all(
-    config.parameters.map(parameter => {
+    allParameters.map(parameter => {
       parser
         .parseHtml(parameter)
         .then(extendedParameter => {

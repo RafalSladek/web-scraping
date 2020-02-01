@@ -14,13 +14,21 @@ exports.parseHtml = parameter => {
     });
 };
 
+exports.parseApi = parameter => {
+  return rp(parameter.url)
+    .then(out => JSON.parse(out))
+    .catch(function(err) {
+      console.error(err);
+    });
+};
 
-exports.extractPrice = (url, cssSelector) => rp(url)
-    .then(function (html) {
-        const priceText = $(cssSelector, html).text();
-        const price = helper.convertDegusaPriceToNumber(priceText);
-        return price;
+exports.extractPrice = (url, cssSelector) =>
+  rp(url)
+    .then(function(html) {
+      const priceText = $(cssSelector, html).text();
+      const price = helper.convertDegusaPriceToNumber(priceText);
+      return price;
     })
-    .catch(function (err) {
-        console.error(err);
+    .catch(function(err) {
+      console.error(err);
     });

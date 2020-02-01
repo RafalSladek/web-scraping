@@ -1,5 +1,6 @@
 const metrics = require("datadog-metrics");
 const io = require("@pm2/io");
+const fgi_config = require("./fgi_config");
 const degussa_config = require("./degussa_config");
 const proaurum_config = require("./proaurum_config");
 const parser = require("./parser");
@@ -16,6 +17,51 @@ const parsingError = io.counter({
 });
 
 const main = () => {
+  parseCryptoFGI();
+  //parseGoldCoins();
+};
+
+/*
+ * parsing api of Fear and Greed Index
+ */
+const parseCryptoFGI = () => {
+  invocation.inc();
+  const allParameters = fgi_config.parameters;
+  Promise.all(
+    allParameters.map(parameter => {
+      parser
+        .parseApi(parameter)
+        .then(p => {
+          console.log(p);
+          const title = p.name;
+          const metricname = title.replace(" ", "");
+          p.data.map(d => {
+            const metricvalue = d.value;
+            const metrictimestamp = d.timestamp;
+            const metricclass = d.value_classification;
+            sendMetric(
+              hostname,
+              (prefix = "feargreadyindex."),
+              ["'name:" + title + "'", "'class:" + metricclass + "'"],
+              metricname,
+              metricvalue,
+              [],
+              metrictimestamp
+            );
+          });
+        })
+        .catch(erro => {
+          console.log("parsingError: " + erro);
+          parsingError.inc();
+        });
+    })
+  );
+};
+
+/*
+ * parsing online page of gold coin shops
+ */
+const parseGoldCoins = () => {
   invocation.inc();
   const allParameters = degussa_config.parameters.concat(
     proaurum_config.parameters
@@ -29,15 +75,13 @@ const main = () => {
             console.log("parsingSucessful: " + extendedParameter.name);
             parsingSucessful.inc();
           }
-
-          const bufferedMetricsLogger = new metrics.BufferedMetricsLogger({
-            host: hostname,
-            prefix: "goldcoin.",
-            flushIntervalSeconds: 180,
-            defaultTags: extendedParameter.defaultTags
-          });
-
-          bufferedMetricsLogger.gauge("price", extendedParameter.price);
+          sendMetric(
+            hostname,
+            "goldcoin.",
+            extendedParameter.defaultTags,
+            "price",
+            extendedParameter.price
+          );
         })
         .catch(erro => {
           console.log("parsingError: " + erro);
@@ -46,5 +90,29 @@ const main = () => {
     })
   );
 };
-const fivemin = 300000;
+
+const sendMetric = (
+  hostname,
+  prefix,
+  tags,
+  metricname,
+  metricvalue,
+  metrictags = [],
+  metrictimestamp = Date.now()
+) => {
+  const bufferedMetricsLogger = new metrics.BufferedMetricsLogger({
+    host: hostname,
+    prefix: prefix,
+    flushIntervalSeconds: 180,
+    defaultTags: tags
+  });
+
+  bufferedMetricsLogger.gauge(
+    metricname,
+    metricvalue,
+    metrictags,
+    metrictimestamp
+  );
+};
+const fivemin = 60000;
 setInterval(main, fivemin);

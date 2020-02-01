@@ -34,7 +34,7 @@ const parseCryptoFGI = () => {
         .then(p => {
           console.log(p);
           const title = p.name;
-          const metricname = title.replace(" ", "");
+          const metricname = title.replace(/\s/g, '');
           p.data.map(d => {
             const metricvalue = d.value;
             const metrictimestamp = d.timestamp;

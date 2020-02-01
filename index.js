@@ -41,7 +41,7 @@ const parseCryptoFGI = () => {
             const metricclass = d.value_classification;
             sendMetric(
               hostname,
-              (prefix = "index."),
+              "index.",
               ["'name:" + title + "'", "'class:" + metricclass + "'"],
               metricname,
               metricvalue,

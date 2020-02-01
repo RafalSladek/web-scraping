@@ -114,5 +114,5 @@ const sendMetric = (
     metrictimestamp
   );
 };
-const fivemin = 60000;
+const fivemin = 10000;
 setInterval(main, fivemin);

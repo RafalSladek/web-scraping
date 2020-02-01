@@ -103,7 +103,7 @@ const sendMetric = (
   const bufferedMetricsLogger = new metrics.BufferedMetricsLogger({
     host: hostname,
     prefix: prefix,
-    flushIntervalSeconds: 180,
+    flushIntervalSeconds: 20,
     defaultTags: tags
   });
 

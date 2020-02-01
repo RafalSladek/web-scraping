@@ -34,14 +34,14 @@ const parseCryptoFGI = () => {
         .then(p => {
           console.log(p);
           const title = p.name;
-          const metricname = title.replace(/\s/g, '');
+          const metricname = "fear_gready";
           p.data.map(d => {
             const metricvalue = d.value;
             const metrictimestamp = d.timestamp;
             const metricclass = d.value_classification;
             sendMetric(
               hostname,
-              (prefix = "feargreadyindex."),
+              (prefix = "index."),
               ["'name:" + title + "'", "'class:" + metricclass + "'"],
               metricname,
               metricvalue,

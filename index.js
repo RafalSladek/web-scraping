@@ -42,7 +42,7 @@ const parseCryptoFGI = () => {
             sendMetric(
               hostname,
               "index.",
-              ["'name:" + title + "'", "'class:" + metricclass + "'"],
+              [],
               metricname,
               metricvalue,
               [],

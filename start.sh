@@ -5,5 +5,5 @@ npm install && \
 DEBUG=metrics pm2 start index.js \
 --name web-scraper \
 --watch \
---time \
---log /var/log/web-scraper.log
+--time
+#--log /var/log/web-scraper.log

@@ -7,11 +7,11 @@
   "author": "Rafal Sladek <rafal.sladek@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@pm2/io": "^4.3.3",
+    "@pm2/io": "^5.0.0",
     "cheerio": "^1.0.0-rc.3",
     "datadog-metrics": "^0.8.1",
     "os": "^0.1.1",
-    "pm2": "^4.5.1",
+    "pm2": "^5.2.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   },
